@@ -25,7 +25,7 @@ SECRET_KEY = '6w&ac6)4k)22c5$*3+ue#!6$_(=a^9vlowyyfb@7&$8swvc@dn'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -54,7 +54,7 @@ ROOT_URLCONF = 'expensetracker.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [(os.path.join(BASE_DIR, 'templates'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
