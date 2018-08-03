@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.validators import validate_email
+from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -49,29 +50,38 @@ def register(request):
         elif len(username) < 4:
             return render(request, "users/register.html", {"message": "Username must be longer than 4 characters."})
 
-        # Validate first and last name.
+        # Validate first name.
         if not firstname:
             return render(request, "users/register.html", {"message": "Must provide a first name."})
-        elif not lastname:
+        elif 100 < len(firstname):
+            return render(request, "users/register.html", {"message": "First name can not be longer than 100 characters."})
+
+        # Validate last name.
+        if not lastname:
             return render(request, "users/register.html", {"message": "Must provide a last name."})
+        elif 100 < len(lastname):
+            return render(request, "users/register.html", {"message": "Last name can not be longer than 100 characters."})
 
         # Validate email address.
         try:
             validate_email(email)
-        except ValidationError:
-            return render(request, "users/register.html", {"message": "Enter a valid email address."})
+        except ValidationError as error:
+            return render(request, "users/register.html", {"message": error})
 
+        # Validate password.
         if not password1:
             return render(request, "users/register.html", {"message": "Must provide a password."})
+        try:
+            validate_password(password1)
+        except ValidationError as error:
+            return render(request, "users/register.html", {"message": error})
 
         # Ensure password and confirmation password are the same.
         if password1 != password2:
             return render(request, "users/register.html", {"message": "Passwords don't match."})
 
-        # Create user and save to the database.
+        # Create and save user.
         user = User.objects.create_user(username, email, password1)
-
-        # Update fields and then save again.
         user.first_name = firstname
         user.last_name = lastname
         user.save()
