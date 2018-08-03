@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %}{% endblock %}</title>
-    <meta name="description" content="Sufee Admin - HTML5 Admin Template">
+    <meta name="description" content="Expense Tracker Web Application">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="apple-icon.png">
@@ -40,8 +40,8 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="./"><img src="images/logo.png" alt="Logo"></a>
-                <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
+                <a class="navbar-brand" href="./"><img src="{% static 'images/logo.png' %}" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="./"><img src="{% static 'images/logo2.png' %}" alt="Logo"></a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
@@ -177,7 +177,7 @@
                           <div class="dropdown-menu" aria-labelledby="message">
                             <p class="red">You have 4 Mails</p>
                             <a class="dropdown-item media bg-flat-color-1" href="#">
-                                <span class="photo media-left"><img alt="avatar" src="images/avatar/1.jpg"></span>
+                                <span class="photo media-left"><img alt="avatar" src="{% static 'images/avatar/1.jpg' %}"></span>
                                 <span class="message media-body">
                                     <span class="name float-left">Jonathan Smith</span>
                                     <span class="time float-right">Just now</span>
@@ -185,7 +185,7 @@
                                 </span>
                             </a>
                             <a class="dropdown-item media bg-flat-color-4" href="#">
-                                <span class="photo media-left"><img alt="avatar" src="images/avatar/2.jpg"></span>
+                                <span class="photo media-left"><img alt="avatar" src="{% static 'images/avatar/2.jpg' %}"></span>
                                 <span class="message media-body">
                                     <span class="name float-left">Jack Sanders</span>
                                     <span class="time float-right">5 minutes ago</span>
@@ -193,7 +193,7 @@
                                 </span>
                             </a>
                             <a class="dropdown-item media bg-flat-color-5" href="#">
-                                <span class="photo media-left"><img alt="avatar" src="images/avatar/3.jpg"></span>
+                                <span class="photo media-left"><img alt="avatar" src="{% static 'images/avatar/3.jpg' %}"></span>
                                 <span class="message media-body">
                                     <span class="name float-left">Cheryl Wheeler</span>
                                     <span class="time float-right">10 minutes ago</span>
@@ -201,7 +201,7 @@
                                 </span>
                             </a>
                             <a class="dropdown-item media bg-flat-color-3" href="#">
-                                <span class="photo media-left"><img alt="avatar" src="images/avatar/4.jpg"></span>
+                                <span class="photo media-left"><img alt="avatar" src="{% static 'images/avatar/4.jpg' %}"></span>
                                 <span class="message media-body">
                                     <span class="name float-left">Rachel Santos</span>
                                     <span class="time float-right">15 minutes ago</span>
@@ -216,7 +216,7 @@
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                            <img class="user-avatar rounded-circle" src="{% static 'images/admin.jpg' %}" alt="User Avatar">
                         </a>
 
                         <div class="user-menu dropdown-menu">
@@ -226,7 +226,7 @@
 
                                 <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
 
-                                <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                                <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-power -off"></i>Logout</a>
                         </div>
                     </div>
 
@@ -277,14 +277,16 @@
 
         <div class="content mt-3">
 
+            {% if message %}
             <div class="col-sm-12">
                 <div class="alert  alert-success alert-dismissible fade show" role="alert">
-                  <span class="badge badge-pill badge-success">Success</span> You successfully read this important alert message.
+                    {{ message }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
             </div>
+            {% endif %}
 
             {% block body %}{% endblock %}
 
@@ -294,7 +296,7 @@
     <!-- Right Panel -->
 
     <script src="{% static 'js/vendor/jquery-2.1.4.min.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
     <script src="{% static 'js/plugins.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
 
