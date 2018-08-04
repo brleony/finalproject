@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{{ title }}</title>
     <meta name="description" content="Expense Tracker Web Application">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -46,8 +46,9 @@
                     {% if user.is_authenticated %}
                     <h3 class="menu-title">My Expenses</h3><!-- /.menu-title -->
                     <li><a href="{% url 'dashboard' %}"> <i class="menu-icon fa fa-dashboard"></i>Dashboard</a></li>
+                    <li><a href="{% url 'createcategory' %}"> <i class="menu-icon fa fa-plus-square"></i>Create Category</a></li>
+                    <li><a href="{% url 'addexpense' %}"> <i class="menu-icon fa fa-edit"></i>Add Expense</a></li>
                     <li><a href="{% url 'history' %}"> <i class="menu-icon fa fa-table"></i>History</a></li>
-                    <li><a href="#"> <i class="menu-icon fa fa-edit"></i>Budget</a></li>
 
                     <h3 class="menu-title">Other</h3><!-- /.menu-title -->
                     <li><a href="{% url 'logout' %}"> <i class="menu-icon fa fa-sign-out"></i>Log Out</a></li>
