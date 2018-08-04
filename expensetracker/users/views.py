@@ -11,7 +11,7 @@ from django.db import IntegrityError
 
 def login_view(request):
     if request.user.is_authenticated:
-        return render(request, "index.html", {"title": "Dashboard"})
+        return render(request, "dashboard.html", {"title": "Dashboard"})
     elif request.method == 'POST':
         username = request.POST["username"]
         password = request.POST["password"]
@@ -19,7 +19,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return render(request, "index.html", {"message": "You are logged in.", "title": "Dashboard"})
+            return render(request, "dashboard.html", {"message": "You are logged in.", "title": "Dashboard"})
         else:
             return render(request, "users/login.html", {"message": "Invalid credentials.", "title": "Log In"})
     else:
@@ -27,12 +27,12 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return render(request, "index.html", {"message": "Logged out.", "title": "Dashboard"})
+    return render(request, "dashboard.html", {"message": "Logged out.", "title": "Dashboard"})
 
 def register(request):
     # If user is logged in, direct to index.
     if request.user.is_authenticated:
-        return render(request, "index.html", {"title": "Dashboard"})
+        return render(request, "dashboard.html", {"title": "Dashboard"})
     # If form was submitted.
     elif request.method == 'POST':
         # Save fields.
@@ -92,7 +92,7 @@ def register(request):
 
         # Log user in.
         login(request, user)
-        return render(request, "index.html", {"message": f"Welcome, {firstname}!", "title": "Dashboard"})
+        return render(request, "dashboard.html", {"message": f"Welcome, {firstname}!", "title": "Dashboard"})
 
     # If method is 'GET' (or any other)
     else:
