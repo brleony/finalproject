@@ -46,7 +46,8 @@
                     {% if user.is_authenticated %}
                     <h3 class="menu-title">My Expenses</h3><!-- /.menu-title -->
                     <li><a href="{% url 'dashboard' %}"> <i class="menu-icon fa fa-dashboard"></i>Dashboard</a></li>
-                    <li><a href="{% url 'createcategory' %}"> <i class="menu-icon fa fa-plus-square"></i>Create Category</a></li>
+                    <li><a href="{% url 'wallets' %}"> <i class="menu-icon fa fa-folder"></i>My Wallets</a></li>
+                    <li><a href="{% url 'createcategory' %}"> <i class="menu-icon fa fa-tags"></i>Create Category</a></li>
                     <li><a href="{% url 'addexpense' %}"> <i class="menu-icon fa fa-edit"></i>Add Expense</a></li>
                     <li><a href="{% url 'history' %}"> <i class="menu-icon fa fa-table"></i>History</a></li>
 

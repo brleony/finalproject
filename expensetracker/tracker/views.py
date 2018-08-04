@@ -4,6 +4,9 @@ from django.shortcuts import render
 def dashboard(request):
     return render(request, "dashboard.html", {"title": "Dashboard"})
 
+def wallets(request):
+    return render(request, "wallets.html", {"title": "My Wallets"})
+
 def createcategory(request):
     return render(request, "createcategory.html", {"title": "Create New Category"})
 
