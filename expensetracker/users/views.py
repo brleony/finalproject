@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.db import IntegrityError
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -81,10 +82,13 @@ def register(request):
             return render(request, "users/register.html", {"message": "Passwords don't match."})
 
         # Create and save user.
-        user = User.objects.create_user(username, email, password1)
-        user.first_name = firstname
-        user.last_name = lastname
-        user.save()
+        try:
+            user = User.objects.create_user(username, email, password1)
+            user.first_name = firstname
+            user.last_name = lastname
+            user.save()
+        except IntegrityError:
+            return render(request, "users/register.html", {"message": "Username must be unique."})
 
         # Log user in.
         login(request, user)

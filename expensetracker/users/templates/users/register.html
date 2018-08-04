@@ -41,12 +41,19 @@
                 </div>
                 {% if message %}
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {% for mes in message %}
-                        {{ mes }}
+                    {% if message.count > 1 %}
+                        {% for mes in message %}
+                            {{ mes }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        {% endfor %}
+                    {% else %}
+                        {{ message }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                    {% endfor %}
+                    {% endif %}
                 </div>
                 {% endif %}
                 <div class="login-form">
