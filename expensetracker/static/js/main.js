@@ -27,6 +27,17 @@ jQuery(document).ready(function($) {
 		$('.search-trigger').parent('.header-left').removeClass('open');
 	});
 
+	/* * * * * * *
+	* Assign "active" class to navbar item based on current page.
+	*
+	* By Dave Rogers.
+	* https://gist.github.com/daverogers/5375778
+	* * * * * * */
+	// get current URL path and assign 'active' class
+	var pathname = window.location.pathname;
+	console.log(pathname);
+	$('.nav > li > a[href="'+pathname+'"]').parent().addClass('active');
+
 	// $('.user-area> a').on('click', function(event) {
 	// 	event.preventDefault();
 	// 	event.stopPropagation();
