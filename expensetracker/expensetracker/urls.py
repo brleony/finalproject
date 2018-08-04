@@ -19,7 +19,7 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("history/", views.history, name="history"),
+    path("tracker/", include("tracker.urls")),
     path("user/", include("users.urls")),
     path('admin/', admin.site.urls),
 ]

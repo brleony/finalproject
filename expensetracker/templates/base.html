@@ -45,7 +45,7 @@
                 <ul class="nav navbar-nav">
                     {% if user.is_authenticated %}
                     <h3 class="menu-title">My Expenses</h3><!-- /.menu-title -->
-                    <li><a href="{% url 'index' %}"> <i class="menu-icon fa fa-dashboard"></i>Dashboard</a></li>
+                    <li><a href="{% url 'dashboard' %}"> <i class="menu-icon fa fa-dashboard"></i>Dashboard</a></li>
                     <li><a href="{% url 'history' %}"> <i class="menu-icon fa fa-table"></i>History</a></li>
                     <li><a href="#"> <i class="menu-icon fa fa-edit"></i>Budget</a></li>
 

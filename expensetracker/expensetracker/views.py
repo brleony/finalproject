@@ -1,9 +1,6 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 def index(request):
-    return render(request, "index.html", {"title": "Dashboard"})
-
-def history(request):
-    return render(request, "history.html", {"title": "History"})
+    return redirect('/tracker/dashboard')
