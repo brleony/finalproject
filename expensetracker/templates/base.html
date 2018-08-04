@@ -66,40 +66,36 @@
 
         <!-- Header-->
         <header id="header" class="header">
-            <div class="breadcrumbs">
-                <div class="col-sm-4">
-                    <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
-                    <div class="page-header float-left">
-                        <div class="page-title">
-                            <h1>Dashboard</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                    <div class="page-header float-right">
-                        <div class="page-title">
-                            <ol class="breadcrumb text-right">
-                                <li class="active">Dashboard</li>
-                            </ol>
-                        </div>
-                    </div>
+            <div class="col-sm-12 header-left">
+                <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
+                <div class="float-left">
+                    <h3>{{ title }}</h3>
                 </div>
             </div>
-        </header>
+
+
+        </header><!-- /header -->
+        <!-- Header-->
+
 
         <div class="content mt-3">
             {% if message %}
-            <div class="col-sm-12">
-                <div class="alert  alert-success alert-dismissible fade show" role="alert">
-                    {% for mes in message %}
-                        {{ mes }}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {% if message.count > 1 %}
+                        {% for mes in message %}
+                            {{ mes }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        {% endfor %}
+                    {% else %}
+                        {{ message }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                    {% endfor %}
+                    {% endif %}
                 </div>
-            </div>
-            {% endif %}
+                {% endif %}
 
             {% block body %}{% endblock %}
         </div> <!-- .content -->
