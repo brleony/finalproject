@@ -12,7 +12,9 @@ def wallets(request):
     return render(request, "wallets.html", {"title": "My Wallets"})
 
 def createcategory(request):
-    return render(request, "createcategory.html", {"title": "Create New Category"})
+    # List of colors to choose from.
+    colors = ['Blue', 'Indigo', 'Purple', 'Pink', 'Red', 'Orange', 'Yellow', 'Green', 'Teal', 'Cyan']
+    return render(request, "createcategory.html", {"title": "Create New Category", "colors": colors})
 
 def addexpense(request):
     return render(request, "addexpense.html", {"title": "Log an Expense"})

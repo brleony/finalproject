@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 
 {% block body %}
+
 <p>Under Construction.</p>
+
+<select name="selectLg" id="selectLg" class="form-control-lg form-control">
+{% for color in colors %}
+    <option class="{{ color|lower }}" value="{{ color|lower }}">{{ color }}</option>
+{% endfor %}
+</select>
 
 {% endblock %}
