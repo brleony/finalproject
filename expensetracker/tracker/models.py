@@ -20,6 +20,9 @@ class Wallet(models.Model):
         on_delete = models.CASCADE,
     )
 
+    class Meta:
+        unique_together = ('name', 'user')
+
     def __str__(self):
         return f"Wallet {self.id} from {self.user}. Uses {self.currency}. Created on {self.date_created}, last used on {self.last_used}."
 
@@ -76,6 +79,9 @@ class Category(models.Model):
         'Wallet',
         on_delete = models.CASCADE,
     )
+
+    class Meta:
+        unique_together = ('name', 'wallet')
 
     def __str__(self):
         return f"{self.id} - Category {self.name} from wallet {self.wallet}." \
