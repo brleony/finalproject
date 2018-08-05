@@ -1,8 +1,12 @@
 from django.shortcuts import render
+from django.contrib import messages
 
 # Create your views here.
 def dashboard(request):
-    return render(request, "dashboard.html", {"title": "Dashboard"})
+    if request.user.is_authenticated:
+        return render(request, "dashboard.html", {"title": "Dashboard"})
+    else:
+        return render(request, "dashboardnotloggedin.html", {"title": "Home"})
 
 def wallets(request):
     return render(request, "wallets.html", {"title": "My Wallets"})

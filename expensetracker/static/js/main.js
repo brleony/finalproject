@@ -35,7 +35,6 @@ jQuery(document).ready(function($) {
 	* * * * * * */
 	// get current URL path and assign 'active' class
 	var pathname = window.location.pathname;
-	console.log(pathname);
 	$('.nav > li > a[href="'+pathname+'"]').parent().addClass('active');
 
 	// $('.user-area> a').on('click', function(event) {

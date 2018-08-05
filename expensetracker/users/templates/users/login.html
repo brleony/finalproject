@@ -39,23 +39,9 @@
                         <img class="align-content" src="{% static 'images/logo.png' %}" alt="">
                     </a>
                 </div>
-                {% if message %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {% if message.count > 1 %}
-                        {% for mes in message %}
-                            {{ mes }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        {% endfor %}
-                    {% else %}
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    {% endif %}
-                </div>
-                {% endif %}
+
+                {% include 'messages.html' %}
+
                 <div class="login-form">
                     <form action="{% url 'login' %}" method="post">
                         {% csrf_token %}
