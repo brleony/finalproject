@@ -22,9 +22,32 @@ class Wallet(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length = 64)
+    BLUE = 'blue'
+    INDIGO = 'indigo'
+    PURPLE = 'purple'
+    PINK = 'pink'
+    RED = 'red'
+    ORANGE = 'orange'
+    YELLOW = 'yellow'
+    GREEN = 'green'
+    TEAL = 'teal'
+    CYAN = 'cyan'
+    COLOR_CHOICES = (
+        (BLUE),
+        (INDIGO),
+        (PURPLE),
+        (PINK),
+        (RED),
+        (ORANGE),
+        (YELLOW),
+        (GREEN),
+        (TEAL),
+        (CYAN),
+    )
     color = models.CharField(
         max_length = 64,
-        default = 'cyan'
+        choices = COLOR_CHOICES,
+        default = 'cyan',
     )
     icon = models.CharField(
         max_length = 64,
