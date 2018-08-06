@@ -1,13 +1,81 @@
 {% extends "base.html" %}
 
 {% block body %}
+<div class="col-xl-6">
+    <div class="card">
+        <div class="card-header">
+            <strong class="card-title">My Categories</strong>
+        </div>
+        <div class="card-body">
+            {% if categories %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Color</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Created</th>
+                        <th scope="col">Last Edited</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td class="{{ category.color }}"><i class="fa {{ category.icon }}"></i></td>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.date_created }}</td>
+                        <td>{{ category.last_edited }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
-<p>Under Construction.</p>
-
-<select name="selectLg" id="selectLg" class="form-control-lg form-control">
-{% for color in colors %}
-    <option class="{{ color|lower }}" value="{{ color|lower }}">{{ color }}</option>
-{% endfor %}
-</select>
-
+<div class="col-xl-6">
+    <div class="card">
+        <div class="card-header">
+            <strong class="card-title">Add New Category</strong>
+        </div>
+        <div class="card-body">
+            {% if colors %}
+                {% if wallets %}
+                <form action="{% url 'createcategory' %}" method="post">
+                    {% csrf_token %}
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="wallet" class="form-control-label">Wallet</label>
+                            <select name="wallet" id="wallet" class="form-control">
+                            {% for wallet in wallets %}
+                                <option value="{{ wallet.id }}">{{ wallet.name }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="form-control-label">Name</label>
+                            <input type="text" id="name" placeholder="Name" name="name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="color" class="form-control-label">Color</label>
+                            <select name="color" id="color" class="form-control">
+                            {% for color in colors %}
+                                <option class="{{ color|lower }}" value="{{ color|lower }}">{{ color }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </fieldset>
+                </form>
+                {% else %}
+                    <p>Couldn't load wallet options.</p>
+                {% endif %}
+            {% else %}
+                <p>Couldn't load color options.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

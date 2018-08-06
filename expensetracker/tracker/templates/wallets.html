@@ -39,6 +39,7 @@
             <strong class="card-title">Add New Wallet</strong>
         </div>
         <div class="card-body">
+            {% if currencies %}
             <form action="{% url 'wallets' %}" method="post">
                 {% csrf_token %}
                 <fieldset>
@@ -47,20 +48,21 @@
                         <input type="text" id="name" placeholder="Name" name="name" class="form-control">
                     </div>
                     <div class="form-group">
-                    {% if currencies %}
                         <label for="currency" class="form-control-label">Currency</label>
                         <select name="currency" id="currency" class="form-control">
                         {% for currency in currencies %}
                             <option value="{{ currency.code }}">{{ currency.name }} - {{ currency.unicode_html|safe }}</option>
                         {% endfor %}
                         </select>
-                    {% endif %}
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Add</button>
                     </div>
                 </fieldset>
             </form>
+            {% else %}
+            <p>Something went wrong.</p>
+            {% endif %}
         </div>
     </div>
 </div>
