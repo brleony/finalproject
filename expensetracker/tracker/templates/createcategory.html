@@ -7,6 +7,19 @@
             <strong class="card-title">My Categories</strong>
         </div>
         <div class="card-body">
+            <div class="row" style="padding-bottom: 10px">
+                <div class="col-3">
+                    <label for="wallet_select" class="form-control-label">Wallet</label>
+                </div>
+                <div class="col-9">
+                    <select name="wallet_select" id="wallet_select" class="form-control">
+                    {% for wallet in wallets %}
+                        <option value="{{ wallet.id }}">{{ wallet.name }}</option>
+                    {% endfor %}
+                </select>
+                </div>
+            </div>
+
             {% if categories %}
             <table class="table">
                 <thead>
@@ -28,6 +41,8 @@
                 {% endfor %}
                 </tbody>
             </table>
+            {% else %}
+                <p>You don't have any categories in this wallet.</p>
             {% endif %}
         </div>
     </div>

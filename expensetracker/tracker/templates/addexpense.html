@@ -1,13 +1,24 @@
 {% extends "base.html" %}
 
 {% block body %}
-<div class="col-xl-12">
+<div class="col-xl-6">
     <div class="card">
+        <div class="card-header">
+            <strong class="card-title">Log Expenses</strong>
+        </div>
         <div class="card-body">
             {% if categories and wallets and payment_methods %}
             <form action="{% url 'addexpense' %}" method="post">
                 {% csrf_token %}
                 <fieldset>
+                    <div class="form-group">
+                        <label for="amount" class="form-control-label">Amount</label>
+                        <input type="text" id="amount" placeholder="0.00" name="amount" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="date" class="form-control-label">Date</label>
+                        <input autocomplete="off" name="date" type="text" class="date form-control">
+                    </div>
                     <div class="form-group">
                         <label for="wallet" class="form-control-label">Wallet</label>
                         <select name="wallet" id="wallet" class="form-control">
@@ -32,12 +43,6 @@
                         {% endfor %}
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <label for="date" class="form-control-label">Date</label>
-                        <input name="date" type="text" class="date form-control">
-                    </div>
-
                     <div class="form-group">
                         <label for="comment" class="form-control-label">Comment</label>
                         <input type="text" id="comment" placeholder="Comment (optional)" name="comment" class="form-control">
@@ -49,6 +54,54 @@
             </form>
             {% else %}
                 <p>Something went wrong.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="col-xl-6">
+    <div class="card">
+        <div class="card-header">
+            <strong class="card-title">Recent Expenses</strong>
+        </div>
+        <div class="card-body">
+            <div class="row" style="padding-bottom: 10px">
+                <div class="col-3">
+                    <label for="wallet_select" class="form-control-label">Wallet</label>
+                </div>
+                <div class="col-9">
+                    <select name="wallet_select" id="wallet_select" class="form-control">
+                    {% for wallet in wallets %}
+                        <option value="{{ wallet.id }}">{{ wallet.name }}</option>
+                    {% endfor %}
+                </select>
+                </div>
+            </div>
+            {% if recent_expenses %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Comment</th>
+                            <th scope="col">Method</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for expense in recent_expenses %}
+                        <tr>
+                            <td>{{ expense.amount }}</td>
+                            <td class="{{ expense.category.color }}"><i class="fa {{ expense.category.icon }}"></i> {{ expense.category.name }}</td>
+                            <td>{{ expense.comment }}</td>
+                            <td>{{ expense.method }}</td>
+                            <td>{{ expense.date_spent }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No expenses in {{ wallet.0.name}}.</p>
             {% endif %}
         </div>
     </div>

@@ -4,6 +4,8 @@ from django.db import IntegrityError
 from .models import Wallet, Currency, Category, Expense
 from django.contrib.auth.models import User
 
+from datetime import datetime
+
 # Create your views here.
 def dashboard(request):
     if request.user.is_authenticated:
@@ -76,31 +78,38 @@ def createcategory(request):
 
 def addexpense(request):
     if request.method == 'POST':
-        amount = request.POST["amount"]
+        amount = float(request.POST["amount"])
         method = request.POST["method"]
         comment = request.POST["comment"]
-        date_spent = request.POST["date_spent"]
-        category_id = request.POST["category_id"]
+        date = datetime.strptime(request.POST["date"], '%m/%d/%Y')
+        category_id = request.POST["category"]
         wallet_id = request.POST["wallet"]
 
         w = Wallet.objects.get(id = wallet_id)
         c = Category.objects.get(id = category_id)
 
         # Save expense.
-        # e = Expense.objects.create(
-        #             amount = ,
-        #             method = method,
-        #             comment = comment,
-        #             date_spent = ,
-        #             category = c,
-        #             wallet = w,
-        #         )
-        # e.save()
-        # messages.success(request, "You successfully logged an expense.")
+        e = Expense.objects.create(
+                    amount = amount,
+                    method = method,
+                    comment = comment,
+                    date_spent = date,
+                    category = c,
+                    wallet = w,
+                )
+        e.save()
+        messages.success(request, "You successfully logged an expense.")
 
     # Query database for wallets & categories to display in form.
     wallets = Wallet.objects.filter(user = request.user).order_by('-last_used').values()
     categories = Category.objects.filter(wallet = wallets[0]["id"]).order_by('-last_edited').values()
+
+    recent_expenses = Expense.objects.filter(wallet = wallets[0]["id"]).order_by('-date_spent').values()[:5]
+
+    for expense in recent_expenses:
+        expense["category"] = Category.objects.filter(pk = expense["category_id"]).values()[0]
+
+    print(recent_expenses)
 
     payment_methods = ['Debit', 'Credit', 'Cash', 'Online', 'Paypal', 'Mobile', 'Transfer', 'Cheque', 'Other']
 
@@ -108,7 +117,8 @@ def addexpense(request):
         "title": "Log an Expense",
         "wallets": wallets,
         "categories": categories,
-        "payment_methods": payment_methods
+        "payment_methods": payment_methods,
+        "recent_expenses": recent_expenses
     }
 
     return render(request, "addexpense.html", context)
