@@ -69,7 +69,10 @@ def createcategory(request):
     wallets = Wallet.objects.filter(user = request.user).order_by('-last_used').values()
 
     # Query database for categories.
-    categories = Category.objects.filter(wallet = wallets[0]["id"]).values()
+    try:
+        categories = Category.objects.filter(wallet = wallets[0]["id"]).values()
+    except IndexError:
+        categories = []
 
     # List of colors to choose from.
     colors = ['Blue', 'Indigo', 'Purple', 'Pink', 'Red', 'Orange', 'Yellow', 'Green', 'Teal', 'Cyan']
@@ -102,14 +105,19 @@ def addexpense(request):
 
     # Query database for wallets & categories to display in form.
     wallets = Wallet.objects.filter(user = request.user).order_by('-last_used').values()
-    categories = Category.objects.filter(wallet = wallets[0]["id"]).order_by('-last_edited').values()
 
-    recent_expenses = Expense.objects.filter(wallet = wallets[0]["id"]).order_by('-date_spent').values()[:5]
+    try:
+        categories = Category.objects.filter(wallet = wallets[0]["id"]).order_by('-last_edited').values()
+    except IndexError:
+        categories = []
+
+    try:
+        recent_expenses = Expense.objects.filter(wallet = wallets[0]["id"]).order_by('-date_created').values()[:5]
+    except IndexError:
+        recent_expenses = []
 
     for expense in recent_expenses:
         expense["category"] = Category.objects.filter(pk = expense["category_id"]).values()[0]
-
-    print(recent_expenses)
 
     payment_methods = ['Debit', 'Credit', 'Cash', 'Online', 'Paypal', 'Mobile', 'Transfer', 'Cheque', 'Other']
 
@@ -124,4 +132,17 @@ def addexpense(request):
     return render(request, "addexpense.html", context)
 
 def history(request):
-    return render(request, "history.html", {"title": "History"})
+    wallets = Wallet.objects.filter(user = request.user).order_by('-last_used').values()
+    try:
+        expenses = Expense.objects.filter(wallet = wallets[0]["id"]).order_by('-date_spent').values()[:5]
+    except IndexError:
+        expenses = []
+
+    for expense in expenses:
+        expense["category"] = Category.objects.filter(pk = expense["category_id"]).values()[0]
+
+    context = {
+        "title": "History",
+        "expenses": expenses
+    }
+    return render(request, "history.html", context)

@@ -37,10 +37,14 @@ jQuery(document).ready(function($) {
 	var pathname = window.location.pathname;
 	$('.nav > li > a[href="'+pathname+'"]').parent().addClass('active');
 
-	$('.date').datepicker({
+	$('.datepicker input').datepicker({
         daysOfWeekHighlighted: "5,6",
         todayHighlight: true
     });
+
+    $(document).ready(function() {
+        $('.datatable').DataTable();
+    } );
 
 	// $('.user-area> a').on('click', function(event) {
 	// 	event.preventDefault();
