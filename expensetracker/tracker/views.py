@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.contrib import messages
+from django.db import IntegrityError
+from .models import Wallet, Currency, Category, Expense
+from django.contrib.auth.models import User
 
 # Create your views here.
 def dashboard(request):
@@ -9,12 +12,40 @@ def dashboard(request):
         return render(request, "dashboardnotloggedin.html", {"title": "Home"})
 
 def wallets(request):
-    return render(request, "wallets.html", {"title": "My Wallets"})
+    if request.method == 'POST':
+        name = request.POST["name"]
+        code = request.POST["currency"]
+
+        c = Currency.objects.get(code = code)
+
+        # Create new wallet.
+        try:
+            w = Wallet.objects.create(
+                name = name,
+                currency = c,
+                user = request.user,
+            )
+            w.save()
+        except IntegrityError:
+            messages.error(request, "Your wallet names must be unique.")
+
+    # Query database for wallets.
+    wallets = Wallet.objects.filter(user = request.user).values()
+
+    # Change currency_id to unicode html for symbol.
+    for wallet in wallets:
+        wallet_currency = Currency.objects.filter(pk = wallet["currency_id"]).values()[0]
+        wallet["currency_symbol"] = wallet_currency["unicode_html"]
+
+    # Get currencies for form.
+    currencies = Currency.objects.all().values()
+
+    return render(request, "wallets.html", {"title": "Wallets", "currencies": currencies, "wallets": wallets})
 
 def createcategory(request):
     # List of colors to choose from.
     colors = ['Blue', 'Indigo', 'Purple', 'Pink', 'Red', 'Orange', 'Yellow', 'Green', 'Teal', 'Cyan']
-    return render(request, "createcategory.html", {"title": "Create New Category", "colors": colors})
+    return render(request, "createcategory.html", {"title": "Categories", "colors": colors})
 
 def addexpense(request):
     return render(request, "addexpense.html", {"title": "Log an Expense"})
