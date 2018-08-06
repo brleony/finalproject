@@ -37,6 +37,11 @@ jQuery(document).ready(function($) {
 	var pathname = window.location.pathname;
 	$('.nav > li > a[href="'+pathname+'"]').parent().addClass('active');
 
+	$('.date').datepicker({
+        daysOfWeekHighlighted: "5,6",
+        todayHighlight: true
+    });
+
 	// $('.user-area> a').on('click', function(event) {
 	// 	event.preventDefault();
 	// 	event.stopPropagation();

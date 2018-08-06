@@ -1,6 +1,56 @@
 {% extends "base.html" %}
 
 {% block body %}
-<p>Under Construction.</p>
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-body">
+            {% if categories and wallets and payment_methods %}
+            <form action="{% url 'addexpense' %}" method="post">
+                {% csrf_token %}
+                <fieldset>
+                    <div class="form-group">
+                        <label for="wallet" class="form-control-label">Wallet</label>
+                        <select name="wallet" id="wallet" class="form-control">
+                        {% for wallet in wallets %}
+                            <option value="{{ wallet.id }}">{{ wallet.name }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="category" class="form-control-label">Category</label>
+                        <select name="category" id="category" class="form-control">
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="method" class="form-control-label">Payment method</label>
+                        <select name="method" id="method" class="form-control">
+                        {% for method in payment_methods %}
+                            <option value="{{ method }}">{{ method }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="date" class="form-control-label">Date</label>
+                        <input name="date" type="text" class="date form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment" class="form-control-label">Comment</label>
+                        <input type="text" id="comment" placeholder="Comment (optional)" name="comment" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Log</button>
+                    </div>
+                </fieldset>
+            </form>
+            {% else %}
+                <p>Something went wrong.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

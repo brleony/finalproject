@@ -75,7 +75,43 @@ def createcategory(request):
     return render(request, "createcategory.html", {"title": "Categories", "colors": colors, "wallets": wallets, "categories": categories})
 
 def addexpense(request):
-    return render(request, "addexpense.html", {"title": "Log an Expense"})
+    if request.method == 'POST':
+        amount = request.POST["amount"]
+        method = request.POST["method"]
+        comment = request.POST["comment"]
+        date_spent = request.POST["date_spent"]
+        category_id = request.POST["category_id"]
+        wallet_id = request.POST["wallet"]
+
+        w = Wallet.objects.get(id = wallet_id)
+        c = Category.objects.get(id = category_id)
+
+        # Save expense.
+        # e = Expense.objects.create(
+        #             amount = ,
+        #             method = method,
+        #             comment = comment,
+        #             date_spent = ,
+        #             category = c,
+        #             wallet = w,
+        #         )
+        # e.save()
+        # messages.success(request, "You successfully logged an expense.")
+
+    # Query database for wallets & categories to display in form.
+    wallets = Wallet.objects.filter(user = request.user).order_by('-last_used').values()
+    categories = Category.objects.filter(wallet = wallets[0]["id"]).order_by('-last_edited').values()
+
+    payment_methods = ['Debit', 'Credit', 'Cash', 'Online', 'Paypal', 'Mobile', 'Transfer', 'Cheque', 'Other']
+
+    context = {
+        "title": "Log an Expense",
+        "wallets": wallets,
+        "categories": categories,
+        "payment_methods": payment_methods
+    }
+
+    return render(request, "addexpense.html", context)
 
 def history(request):
     return render(request, "history.html", {"title": "History"})
