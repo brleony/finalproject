@@ -63,7 +63,7 @@ def register(request):
             messages.error(request, 'Must provide a first name.')
             return render(request, "users/register.html", {"title": "Register"})
         elif 100 < len(firstname):
-            messages.error(request, 'IFirst name can not be longer than 100 characters.')
+            messages.error(request, 'First name can not be longer than 100 characters.')
             return render(request, "users/register.html", {"title": "Register"})
 
         # Validate last name.

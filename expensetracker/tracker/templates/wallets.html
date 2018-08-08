@@ -22,8 +22,8 @@
                     <tr>
                         <td>{{ wallet.name }}</td>
                         <td>{{ wallet.currency_symbol|safe }}</td>
-                        <td>{{ wallet.date_created }}</td>
-                        <td>{{ wallet.last_used }}</td>
+                        <td>{{ wallet.date_created|date:'M j, Y P' }}</td>
+                        <td>{{ wallet.last_used|date:'M j, Y P' }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -50,6 +50,7 @@
                     <div class="form-group">
                         <label for="currency" class="form-control-label">Currency</label>
                         <select name="currency" id="currency" class="form-control">
+                            <option value=""></option>
                         {% for currency in currencies %}
                             <option value="{{ currency.code }}">{{ currency.name }} - {{ currency.unicode_html|safe }}</option>
                         {% endfor %}

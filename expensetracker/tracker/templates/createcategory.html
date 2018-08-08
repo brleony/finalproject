@@ -35,8 +35,8 @@
                     <tr>
                         <td class="{{ category.color }}"><i class="fa {{ category.icon }}"></i></td>
                         <td>{{ category.name }}</td>
-                        <td>{{ category.date_created }}</td>
-                        <td>{{ category.last_edited }}</td>
+                        <td>{{ category.date_created|date:'M j, Y P' }}</td>
+                        <td>{{ category.last_edited|date:'M j, Y P' }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -62,6 +62,7 @@
                         <div class="form-group">
                             <label for="wallet" class="form-control-label">Wallet</label>
                             <select name="wallet" id="wallet" class="form-control">
+                                <option value=""></option>
                             {% for wallet in wallets %}
                                 <option value="{{ wallet.id }}">{{ wallet.name }}</option>
                             {% endfor %}
@@ -74,6 +75,7 @@
                         <div class="form-group">
                             <label for="color" class="form-control-label">Color</label>
                             <select name="color" id="color" class="form-control">
+                                <option value=""></option>
                             {% for color in colors %}
                                 <option class="{{ color|lower }}" value="{{ color|lower }}">{{ color }}</option>
                             {% endfor %}

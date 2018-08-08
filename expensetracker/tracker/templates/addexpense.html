@@ -22,6 +22,7 @@
                     <div class="form-group">
                         <label for="wallet" class="form-control-label">Wallet</label>
                         <select name="wallet" id="wallet" class="form-control">
+                            <option value=""></option>
                         {% for wallet in wallets %}
                             <option value="{{ wallet.id }}">{{ wallet.name }}</option>
                         {% endfor %}
@@ -30,6 +31,7 @@
                     <div class="form-group">
                         <label for="category" class="form-control-label">Category</label>
                         <select name="category" id="category" class="form-control">
+                            <option value=""></option>
                         {% for category in categories %}
                             <option value="{{ category.id }}">{{ category.name }}</option>
                         {% endfor %}
@@ -38,6 +40,7 @@
                     <div class="form-group">
                         <label for="method" class="form-control-label">Payment method</label>
                         <select name="method" id="method" class="form-control">
+                            <option value=""></option>
                         {% for method in payment_methods %}
                             <option value="{{ method }}">{{ method }}</option>
                         {% endfor %}
@@ -74,7 +77,7 @@
                     {% for wallet in wallets %}
                         <option value="{{ wallet.id }}">{{ wallet.name }}</option>
                     {% endfor %}
-                </select>
+                    </select>
                 </div>
             </div>
             {% if recent_expenses %}
@@ -95,7 +98,7 @@
                             <td class="{{ expense.category.color }}"><i class="fa {{ expense.category.icon }}"></i> {{ expense.category.name }}</td>
                             <td>{{ expense.comment }}</td>
                             <td>{{ expense.method }}</td>
-                            <td>{{ expense.date_spent }}</td>
+                            <td>{{ expense.date_spent|date:'M j, Y' }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
