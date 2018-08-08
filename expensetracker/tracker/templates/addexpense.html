@@ -13,16 +13,16 @@
                 <fieldset>
                     <div class="form-group">
                         <label for="amount" class="form-control-label">Amount</label>
-                        <input type="text" id="amount" placeholder="0.00" name="amount" class="form-control">
+                        <input type="number" id="amount" placeholder="0.00" name="amount" class="form-control" min="0.01" step="0.01" required>
                     </div>
                     <div class="form-group datepicker">
                         <label for="date" class="form-control-label">Date</label>
-                        <input autocomplete="off" name="date" type="text" value="{% now "m/d/Y" %}" class="form-control">
+                        <input autocomplete="off" name="date" type="text" value="{% now "m/d/Y" %}" class="form-control" pattern="[0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4}" required>
                     </div>
                     <div class="form-group">
                         <label for="wallet" class="form-control-label">Wallet</label>
-                        <select name="wallet" id="wallet" class="form-control">
-                            <option value=""></option>
+                        <select name="wallet" id="wallet" class="form-control" required>
+                            <option disabled selected value>Select a wallet</option>
                         {% for wallet in wallets %}
                             <option value="{{ wallet.id }}">{{ wallet.name }}</option>
                         {% endfor %}
@@ -39,8 +39,8 @@
                     </div>
                     <div class="form-group">
                         <label for="method" class="form-control-label">Payment method</label>
-                        <select name="method" id="method" class="form-control">
-                            <option value=""></option>
+                        <select name="method" id="method" class="form-control" required>
+                            <option disabled selected value></option>
                         {% for method in payment_methods %}
                             <option value="{{ method }}">{{ method }}</option>
                         {% endfor %}
@@ -48,7 +48,7 @@
                     </div>
                     <div class="form-group">
                         <label for="comment" class="form-control-label">Comment</label>
-                        <input type="text" id="comment" placeholder="Comment (optional)" name="comment" class="form-control">
+                        <input type="text" id="comment" placeholder="Comment (optional)" name="comment" class="form-control" maxlength="255" pattern=".{0,255}">
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Log</button>

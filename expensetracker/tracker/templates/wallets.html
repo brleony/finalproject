@@ -45,12 +45,15 @@
                 <fieldset>
                     <div class="form-group">
                         <label for="name" class="form-control-label">Wallet name</label>
-                        <input type="text" id="wallet" placeholder="Name" name="name" class="form-control">
+                        <input type="text" id="wallet" placeholder="Name" name="name" class="form-control" maxlength="20" pattern="[A-Za-z|0-9]{3,20}" required>
+                        <small class="form-text text-muted">
+                            Choose a name between 3 and 20 characters, only letters and numbers.
+                        </small>
                     </div>
                     <div class="form-group">
                         <label for="currency" class="form-control-label">Currency</label>
-                        <select name="currency" id="currency" class="form-control">
-                            <option value=""></option>
+                        <select name="currency" id="currency" class="form-control" required>
+                            <option disabled selected value></option>
                         {% for currency in currencies %}
                             <option value="{{ currency.code }}">{{ currency.name }} - {{ currency.unicode_html|safe }}</option>
                         {% endfor %}

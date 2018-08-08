@@ -61,8 +61,8 @@
                     <fieldset>
                         <div class="form-group">
                             <label for="wallet" class="form-control-label">Wallet</label>
-                            <select name="wallet" id="wallet" class="form-control">
-                                <option value=""></option>
+                            <select name="wallet" id="wallet" class="form-control" required>
+                                <option disabled selected value></option>
                             {% for wallet in wallets %}
                                 <option value="{{ wallet.id }}">{{ wallet.name }}</option>
                             {% endfor %}
@@ -70,12 +70,15 @@
                         </div>
                         <div class="form-group">
                             <label for="name" class="form-control-label">Name</label>
-                            <input type="text" id="name" placeholder="Name" name="name" class="form-control">
+                            <input type="text" id="name" placeholder="Name" name="name" class="form-control" maxlength="20" pattern="[A-Za-z|0-9]{3,20}" required>
+                            <small class="form-text text-muted">
+                                Choose a name between 3 and 20 characters, only letters and numbers.
+                            </small>
                         </div>
                         <div class="form-group">
                             <label for="color" class="form-control-label">Color</label>
-                            <select name="color" id="color" class="form-control">
-                                <option value=""></option>
+                            <select name="color" id="color" class="form-control" required>
+                                <option disabled selected value></option>
                             {% for color in colors %}
                                 <option class="{{ color|lower }}" value="{{ color|lower }}">{{ color }}</option>
                             {% endfor %}

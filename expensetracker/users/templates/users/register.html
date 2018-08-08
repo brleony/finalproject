@@ -48,36 +48,36 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input autofocus class="form-control" name="username" type="text"/>
-                                <small id="username_help" class="form-text text-muted">
+                                <input autofocus class="form-control" name="username" type="text" maxlength="20" pattern=".{4,20}" required>
+                                <small class="form-text text-muted">
                                     This is the name that you will use to login to the website.
                                 </small>
                             </div>
                             <div class="form-group">
                                 <label for="firstname">First name</label>
-                                <input autofocus class="form-control" name="firstname" type="text"/>
+                                <input autofocus class="form-control" name="firstname" type="text" maxlength="100" pattern="[A-Za-z|0-9]{1,100}" required>
                             </div>
                             <div class="form-group">
                                 <label for="lastname">Last name</label>
-                                <input autofocus class="form-control" name="lastname" type="text"/>
+                                <input autofocus class="form-control" name="lastname" type="text" maxlength="100" pattern="[A-Za-z|0-9]{1,100}" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email Address</label>
-                                <input autofocus class="form-control" name="email" type="email"/>
-                                <small id="email_help" class="form-text text-muted">
+                                <input autofocus class="form-control" name="email" type="email" required>
+                                <small class="form-text text-muted">
                                     We need to be able to reach you on this email address.
                                 </small>
                             </div>
                             <div class="form-group">
                                 <label for="password1">Password</label>
-                                <input class="form-control" name="password1" type="password"/>
-                                <small id="password1_help" class="form-text text-muted">
+                                <input class="form-control" name="password1" type="password" required>
+                                <small class="form-text text-muted">
                                     Password must contain at least 8 characters and must be uncommon.
                                 </small>
                             </div>
                             <div class="form-group">
                                 <label for="password2">Confirm password</label>
-                                <input class="form-control" name="password2" type="password"/>
+                                <input class="form-control" name="password2" type="password" required>
                             </div>
                             <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Register</button>
                             <div class="register-link m-t-15 text-center">
