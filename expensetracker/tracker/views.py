@@ -3,8 +3,9 @@ from django.contrib import messages
 from django.db import IntegrityError
 from .models import Wallet, Currency, Category, Expense
 from django.contrib.auth.models import User
-
 from datetime import datetime
+
+from tracker.helpers import getexpensecategorynames
 
 # Create your views here.
 def dashboard(request):
@@ -90,6 +91,7 @@ def createcategory(request):
         color = request.POST["color"]
         wallet_id = request.POST["wallet"]
 
+        # Validate category name.
         if not name:
             messages.error(request, 'Must provide a name.')
             return render(request, "createcategory.html", context)
@@ -100,6 +102,7 @@ def createcategory(request):
             messages.error(request, 'Name must be longer than 3 characters.')
             return render(request, "createcategory.html", context)
 
+        # Check if a color and wallet were chosen.
         if not color:
             messages.error(request, 'Must choose a color.')
             return render(request, "createcategory.html", context)
@@ -107,6 +110,7 @@ def createcategory(request):
             messages.error(request, 'Must choose a wallet.')
             return render(request, "createcategory.html", context)
 
+        # Try to get wallet object.
         try:
             w = Wallet.objects.filter(user = request.user).filter(id = wallet_id)[0]
         except IndexError:
@@ -144,11 +148,7 @@ def addexpense(request):
         recent_expenses = []
 
     # Query database for categories used in recent expenses.
-    for expense in recent_expenses:
-        if expense["category_id"]:
-            expense["category"] = Category.objects.filter(pk = expense["category_id"]).values()[0]
-        else:
-            expense["category"] = ""
+    expenses =  getexpensecategorynames(recent_expenses, Category)
 
     payment_methods = ['Debit', 'Credit', 'Cash', 'Online', 'Paypal', 'Mobile', 'Transfer', 'Cheque', 'Other']
 
@@ -161,6 +161,7 @@ def addexpense(request):
     }
 
     if request.method == 'POST':
+        # Try to convert amount to float.
         try:
             amount = float(request.POST["amount"])
         except ValueError:
@@ -178,24 +179,27 @@ def addexpense(request):
         category_id = request.POST["category"]
         wallet_id = request.POST["wallet"]
 
+        # Check if payment method and wallet were chosen.
         if not wallet_id:
             messages.error(request, 'Must choose a wallet')
             return render(request, "addexpense.html", context)
-
         if not method:
             messages.error(request, 'Must choose a method.')
             return render(request, "addexpense.html", context)
 
+        # Validate comment length.
         if 255 < len(comment):
             messages.error(request, 'Comment can not be longer than 255 characters.')
             return render(request, "addexpense.html", context)
 
+        # Try to get wallet object.
         try:
             w = Wallet.objects.filter(user = request.user).filter(id = wallet_id)[0]
         except IndexError:
             messages.error(request, 'We could not find that wallet.')
             return render(request, "addexpense.html", context)
 
+        # If category was chosen, get category object.
         if category_id:
             try:
                 c = Category.objects.filter(id = category_id)[0]
@@ -229,11 +233,7 @@ def history(request):
     except IndexError:
         expenses = []
 
-    for expense in expenses:
-        if expense["category_id"]:
-            expense["category"] = Category.objects.filter(pk = expense["category_id"]).values()[0]
-        else:
-            expense["category"] = ""
+    expenses =  getexpensecategorynames(expenses, Category)
 
     context = {
         "title": "History",
