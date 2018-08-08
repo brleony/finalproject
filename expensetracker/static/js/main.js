@@ -38,8 +38,7 @@ jQuery(document).ready(function($) {
 	$('.nav > li > a[href="'+pathname+'"]').parent().addClass('active');
 
 	$('.datepicker input').datepicker({
-        daysOfWeekHighlighted: "5,6",
-        todayHighlight: true
+        daysOfWeekHighlighted: "5,6"
     });
 
     $(document).ready(function() {
