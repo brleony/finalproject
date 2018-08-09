@@ -22,10 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secret_key
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = debug
+DEBUG = False
 
 ALLOWED_HOSTS = ['ide50-leonyb.cs50.io', 'mysterious-temple-63445.herokuapp.com']
 
@@ -77,7 +77,16 @@ WSGI_APPLICATION = 'expensetracker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = databases
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd3m96blj6m23l2',
+        'USER': 'yfarkijeoznlws',
+        'PASSWORD': 'fefc4de1d1d5183d3b7c3b7a6bf4978d766c2ff1388c41fe6686bc504cec3640',
+        'HOST': 'ec2-23-23-216-40.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 # Messages
 # https://docs.djangoproject.com/en/2.0/ref/contrib/messages/
