@@ -5,7 +5,7 @@ from .models import Wallet, Currency, Category, Expense
 from django.contrib.auth.models import User
 from datetime import datetime
 
-from tracker.helpers import getexpensecategorynames
+from tracker.helpers import getexpensedetails
 
 # Create your views here.
 def dashboard(request):
@@ -72,7 +72,7 @@ def createcategory(request):
 
     # Query database for categories.
     try:
-        categories = Category.objects.filter(wallet = wallets[0]["id"]).values()
+        categories = Category.objects.filter(wallet__user = request.user).values()
     except IndexError:
         categories = []
 
@@ -123,6 +123,7 @@ def createcategory(request):
                     name = name,
                     color = color,
                     wallet = w,
+                    created_by = request.user,
                 )
             c.save()
             messages.success(request, "You successfully added a new category.")
@@ -132,10 +133,10 @@ def createcategory(request):
     return render(request, "createcategory.html", context)
 
 def addexpense(request):
-    # Query database for wallets.
+    # Query database for wallets to show in form.
     wallets = Wallet.objects.filter(user = request.user).order_by('-last_used').values()
 
-    # Query database for categories.
+    # Query database for categories to show in form.
     try:
         categories = Category.objects.filter(wallet = wallets[0]["id"]).order_by('-last_edited').values()
     except IndexError:
@@ -143,12 +144,14 @@ def addexpense(request):
 
     # Query database for 5 most recent expenses.
     try:
-        recent_expenses = Expense.objects.filter(wallet = wallets[0]["id"]).order_by('-date_created').values()[:5]
+        recent_expenses = Expense.objects.filter(created_by = request.user,).order_by('-date_created').values()[:5]
     except IndexError:
         recent_expenses = []
 
-    # Query database for categories used in recent expenses.
-    expenses =  getexpensecategorynames(recent_expenses, Category)
+    # Query database for categories and wallets and currencies used in recent expenses.
+    recent_expenses = getexpensedetails(recent_expenses, Category, 'category_id', 'category', None)
+    recent_expenses = getexpensedetails(recent_expenses, Wallet, 'wallet_id', 'wallet', None)
+    recent_expenses = getexpensedetails(recent_expenses, Currency, 'wallet', 'currency', 'currency_id')
 
     payment_methods = ['Debit', 'Credit', 'Cash', 'Online', 'Paypal', 'Mobile', 'Transfer', 'Cheque', 'Other']
 
@@ -217,6 +220,7 @@ def addexpense(request):
                     comment = comment,
                     date_spent = date,
                     wallet = w,
+                    created_by = request.user,
                 )
         if c:
             e.category = c
@@ -226,14 +230,16 @@ def addexpense(request):
     return render(request, "addexpense.html", context)
 
 def history(request):
-    wallets = Wallet.objects.filter(user = request.user).order_by('-last_used').values()
-
     try:
-        expenses = Expense.objects.filter(wallet = wallets[0]["id"]).order_by('-date_spent').values()
+        expenses = Expense.objects.filter(wallet__user = request.user).order_by('-date_spent').values()
     except IndexError:
         expenses = []
 
-    expenses =  getexpensecategorynames(expenses, Category)
+    expenses = getexpensedetails(expenses, Category, 'category_id', 'category', None)
+    expenses = getexpensedetails(expenses, Wallet, 'wallet_id', 'wallet', None)
+    expenses = getexpensedetails(expenses, Currency, 'wallet', 'currency', 'currency_id')
+
+    print(expenses)
 
     context = {
         "title": "History",

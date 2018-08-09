@@ -108,7 +108,7 @@ def register(request):
 
         # Log user in.
         login(request, user)
-        messages.error(request, f"Welcome, {firstname}!")
+        messages.success(request, f"Welcome, {firstname}!")
         return render(request, "dashboard.html", {"title": "Dashboard"})
 
     # If method is 'GET' (or any other)

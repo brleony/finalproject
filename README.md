@@ -42,7 +42,7 @@ Contains css, scss, JavaScript, fonts and images.
 ### Templates
 Contains only the `base.html` template and the template for messages that it uses: `messages.html`.
 
-## Built on top of
+## Made with
 * Django https://www.djangoproject.com/
 * Bootstrap 4 https://getbootstrap.com/
 * Sufee Admin Dashboard Template https://github.com/puikinsh/sufee-admin-dashboard

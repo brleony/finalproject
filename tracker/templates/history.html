@@ -26,10 +26,10 @@
                                 <tr>
                                     <td>{{ expense.date_spent|date:'M j, Y' }}</td>
                                     <td class="{{ expense.category.color }}"><i class="fa {{ expense.category.icon }}"></i> {{ expense.category.name }}</td>
-                                    <td>{{ expense.amount }}</td>
+                                    <td>{{ expense.currency.unicode_html|safe }} {{ expense.amount }}</td>
                                     <td>{{ expense.comment }}</td>
                                     <td>{{ expense.method }}</td>
-                                    <td>{{ expense.wallet_id }}</td>
+                                    <td>{{ expense.wallet.name }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

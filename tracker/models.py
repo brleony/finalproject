@@ -79,6 +79,12 @@ class Category(models.Model):
         'Wallet',
         on_delete = models.CASCADE,
     )
+    created_by = models.ForeignKey(
+        'auth.User',
+        on_delete = models.SET_NULL,
+        blank = True,
+        null = True,
+    )
 
     class Meta:
         unique_together = ('name', 'wallet')
@@ -142,6 +148,12 @@ class Expense(models.Model):
     wallet = models.ForeignKey(
         'Wallet',
         on_delete = models.CASCADE,
+    )
+    created_by = models.ForeignKey(
+        'auth.User',
+        on_delete = models.SET_NULL,
+        blank = True,
+        null = True,
     )
 
     def __str__(self):

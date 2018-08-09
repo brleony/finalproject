@@ -68,23 +68,12 @@
             <strong class="card-title">Recent Expenses</strong>
         </div>
         <div class="card-body">
-            <div class="row" style="padding-bottom: 10px">
-                <div class="col-3">
-                    <label for="wallet_select" class="form-control-label">Wallet</label>
-                </div>
-                <div class="col-9">
-                    <select name="wallet_select" id="wallet_select" class="form-control">
-                    {% for wallet in wallets %}
-                        <option value="{{ wallet.id }}">{{ wallet.name }}</option>
-                    {% endfor %}
-                    </select>
-                </div>
-            </div>
             {% if recent_expenses %}
                 <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">Amount</th>
+                            <th scope="col">Wallet</th>
                             <th scope="col">Category</th>
                             <th scope="col">Comment</th>
                             <th scope="col">Method</th>
@@ -94,7 +83,8 @@
                     <tbody>
                     {% for expense in recent_expenses %}
                         <tr>
-                            <td>{{ expense.amount }}</td>
+                            <td>{{ expense.currency.unicode_html|safe }} {{ expense.amount }}</td>
+                            <td>{{ expense.wallet.name }}</td>
                             <td class="{{ expense.category.color }}"><i class="fa {{ expense.category.icon }}"></i> {{ expense.category.name }}</td>
                             <td>{{ expense.comment }}</td>
                             <td>{{ expense.method }}</td>
@@ -104,7 +94,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <p>No expenses in {{ wallet.0.name}}.</p>
+                <p>No expenses in this wallet.</p>
             {% endif %}
         </div>
     </div>

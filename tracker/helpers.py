@@ -1,8 +1,9 @@
-def getexpensecategorynames(expenses, Category):
+def getexpensedetails(expenses, Model, detail_id, detailname, optional):
     for expense in expenses:
-        if expense["category_id"]:
-            expense["category"] = Category.objects.filter(pk = expense["category_id"]).values()[0]
+        if optional:
+            expense[detailname] = Model.objects.filter(pk = expense[detail_id][optional]).values()[0]
+        elif expense[detail_id]:
+            expense[detailname] = Model.objects.filter(pk = expense[detail_id]).values()[0]
         else:
-            expense["category"] = ""
-
+            expense[detailname] = ""
     return expenses
