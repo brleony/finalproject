@@ -11,24 +11,24 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import dj_database_url
+from local_settings import *
 
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '6w&ac6)4k)22c5$*3+ue#!6$_(=a^9vlowyyfb@7&$8swvc@dn'
+SECRET_KEY = secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = debug
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'ide50-leonyb.cs50.io', 'mysterious-temple-63445.herokuapp.com']
+ALLOWED_HOSTS = ['ide50-leonyb.cs50.io', 'mysterious-temple-63445.herokuapp.com']
 
 
 # Application definition
@@ -78,12 +78,7 @@ WSGI_APPLICATION = 'expensetracker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = databases
 
 # Messages
 # https://docs.djangoproject.com/en/2.0/ref/contrib/messages/
