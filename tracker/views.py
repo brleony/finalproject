@@ -10,7 +10,46 @@ from tracker.helpers import getexpensedetails
 # Create your views here.
 def dashboard(request):
     if request.user.is_authenticated:
-        return render(request, "dashboard.html", {"title": "Dashboard"})
+        # Query database for 10 most recent expenses.
+        try:
+            expenses = Expense.objects.filter(created_by = request.user,).order_by('-date_created').values()
+        except IndexError:
+            expenses = []
+
+        # Query database for categories and wallets and currencies used in recent expenses.
+        expenses = getexpensedetails(expenses, Category, 'category_id', 'category', None)
+        expenses = getexpensedetails(expenses, Wallet, 'wallet_id', 'wallet', None)
+        expenses = getexpensedetails(expenses, Currency, 'wallet', 'currency', 'currency_id')
+
+        # Save last 10 expenses.
+        recent_expenses = expenses[:10]
+
+        # Counter.
+        expenses_this_month = 0
+        amount_this_month = 0
+        expenses_all_time = 0
+        amount_all_time = 0
+
+        # Count expenses in current month and all time.
+        for expense in expenses:
+            # If month and year are current month and year.
+            if expense["date_spent"].month == datetime.today().month and expense["date_spent"].year == datetime.today().year:
+                expenses_this_month += 1
+                amount_this_month += expense["amount"]
+
+            expenses_all_time += 1
+            amount_all_time += expense["amount"]
+
+        context = {
+            "title": "Dashboard",
+            "recent_expenses": recent_expenses,
+            "expenses_this_month": expenses_this_month,
+            "expenses_all_time": expenses_all_time,
+            "amount_this_month": amount_this_month,
+            "amount_all_time": amount_all_time,
+        }
+
+        return render(request, "dashboard.html", context)
     else:
         return render(request, "dashboardnotloggedin.html", {"title": "Home"})
 

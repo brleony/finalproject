@@ -45,7 +45,7 @@
                             </tfoot>
                         </table>
                     {% else %}
-                        <p>You haven't logged any expenses.</p>
+                        <p>You haven't logged any expenses. <a href="{% url 'addexpense' %}">Add your first expense</a>.</p></p>
                     {% endif %}
                 </div>
             </div>

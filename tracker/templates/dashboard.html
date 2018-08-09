@@ -6,8 +6,8 @@
         <div class="card-body">
             <div class="clearfix">
                 <i class="fa fa-cogs bg-flat-color-5 p-3 font-2xl mr-3 float-left text-light"></i>
-                <div class="h5 text-secondary mb-0 mt-1">$xxxx,xx</div>
-                <div class="text-muted text-uppercase font-weight-bold font-xs small">Total This Week</div>
+                <div class="h5 text-secondary mb-0 mt-1">{{ amount_all_time }}</div>
+                <div class="text-muted text-uppercase font-weight-bold font-xs small">Spent Total</div>
             </div>
         </div>
     </div>
@@ -18,8 +18,8 @@
         <div class="card-body">
             <div class="clearfix">
                 <i class="fa fa-cogs bg-flat-color-5 p-3 font-2xl mr-3 float-left text-light"></i>
-                <div class="h5 text-secondary mb-0 mt-1">XX</div>
-                <div class="text-muted text-uppercase font-weight-bold font-xs small">Transactions This Week</div>
+                <div class="h5 text-secondary mb-0 mt-1">{{ expenses_all_time }}</div>
+                <div class="text-muted text-uppercase font-weight-bold font-xs small">Expenses Total</div>
             </div>
         </div>
     </div>
@@ -30,8 +30,8 @@
         <div class="card-body">
             <div class="clearfix">
                 <i class="fa fa-cogs bg-info p-3 font-2xl mr-3 float-left text-light"></i>
-                <div class="h5 text-secondary mb-0 mt-1">$xxxx,xx</div>
-                <div class="text-muted text-uppercase font-weight-bold font-xs small">Total July</div>
+                <div class="h5 text-secondary mb-0 mt-1">{{ amount_this_month }}</div>
+                <div class="text-muted text-uppercase font-weight-bold font-xs small">Spent {% now "F" %}</div>
             </div>
         </div>
     </div>
@@ -42,8 +42,8 @@
         <div class="card-body">
             <div class="clearfix">
                 <i class="fa fa-cogs bg-info p-3 font-2xl mr-3 float-left text-light"></i>
-                <div class="h5 text-secondary mb-0 mt-1">XX</div>
-                <div class="text-muted text-uppercase font-weight-bold font-xs small">Transactions July</div>
+                <div class="h5 text-secondary mb-0 mt-1">{{ expenses_this_month }}</div>
+                <div class="text-muted text-uppercase font-weight-bold font-xs small">Expenses {% now "F" %}</div>
             </div>
         </div>
     </div>
@@ -51,43 +51,39 @@
 
 <div class="col-xl-6">
     <div class="card">
+        <div class="card-header">
+            <strong class="card-title">Recent Expenses</strong>
+        </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-sm-4">
-                    <h4 class="card-title mb-0">Traffic</h4>
-                    <div class="small text-muted">October 2017</div>
-                </div>
-                <!--/.col-->
-                <div class="col-sm-8 hidden-sm-down">
-                    <button type="button" class="btn btn-primary float-right bg-flat-color-1"><i class="fa fa-cloud-download"></i></button>
-                    <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
-                        <div class="btn-group mr-3" data-toggle="buttons" aria-label="First group">
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="options" id="option1"> Day
-                            </label>
-                            <label class="btn btn-outline-secondary active">
-                                <input type="radio" name="options" id="option2" checked=""> Month
-                            </label>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="options" id="option3"> Year
-                            </label>
-                        </div>
-                    </div>
-                </div><!--/.col-->
-            </div><!--/.row-->
-            <div class="chart-wrapper mt-4" >
-                <canvas id="trafficChart" style="height:200px;" height="200"></canvas>
-            </div>
+            {% if recent_expenses %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Wallet</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Comment</th>
+                            <th scope="col">Method</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for expense in recent_expenses %}
+                        <tr>
+                            <td>{{ expense.currency.unicode_html|safe }} {{ expense.amount }}</td>
+                            <td>{{ expense.wallet.name }}</td>
+                            <td class="{{ expense.category.color }}"><i class="fa {{ expense.category.icon }}"></i> {{ expense.category.name }}</td>
+                            <td>{{ expense.comment }}</td>
+                            <td>{{ expense.method }}</td>
+                            <td>{{ expense.date_spent|date:'M j, Y' }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No expenses logged. Why not <a href="{% url 'addexpense' %}">add an expense</a>?</p>
+            {% endif %}
         </div>
     </div>
 </div>
-
-<div class="col-xl-3">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="mb-3">Pie Chart </h4>
-            <canvas id="pieChart"></canvas>
-        </div>
-    </div>
-</div><!-- /# column -->
 {% endblock %}
