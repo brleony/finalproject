@@ -58,7 +58,7 @@ pylint-flask==0.5
 pylint-plugin-utils==0.2.6
 PyPDF2==1.26.0
 Pyphen==0.9.4
-python-engineio==2.2.0
+python-engineio==3.8.2.post1
 python-magic==0.4.13
 python-socketio==2.0.0
 pytz==2017.2
